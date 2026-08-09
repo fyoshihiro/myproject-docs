@@ -1,2 +1,1 @@
-- [ホーム](/)
-- [MariaDB](MariaDB.md)
+ [MariaDB](MariaDB.md)
