@@ -1,3 +1,3 @@
-- [ホーム](Read.md)
+- [ホーム](README.md)
 - [MariaDB](MariaDB.md)
 - [phpMyAdmin](phpMyAdmin.md)
