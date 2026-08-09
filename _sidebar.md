@@ -13,6 +13,9 @@
 - mail
   - [SPF](mail/SPF.md)
 
+- web-server
+  - [Docker](web-server/Docker.md)
+
 - infra
   - [SSH](infra/SSH.md)
   - [RaspberryPi](infra/RaspberryPi)
