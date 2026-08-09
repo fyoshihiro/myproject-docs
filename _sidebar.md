@@ -13,6 +13,7 @@
 
 - web-server
   - [Docker](web-server/Docker.md)
+  - [Nginx](web-server/Nginx.md)
 
 - languages
   - [Markdown](languages/Markdown.md)
