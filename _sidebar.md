@@ -1,3 +1,3 @@
-- [ホーム](README.md)
-- [MariaDB](MariaDB.md)
-- [phpMyAdmin](phpMyAdmin.md)
+- [ホーム](#/README.md)
+- [MariaDB](#/MariaDB.md)
+- [phpMyAdmin](#/phpMyAdmin.md)
