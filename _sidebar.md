@@ -2,7 +2,6 @@
 
 - [Git](Git.md)
 
-
 - Database
   - [MariaDB](database/MariaDB.md)
   - [phpMyAdmin](database/phpMyAdmin.md)
