@@ -1,2 +1,2 @@
-- [Home](/)
-   - [Guide](MariaDB.md)
+- [MariaDB](MariaDB.md)
+- [phpMyAdmin](phpMyAdmin.md)
