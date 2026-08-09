@@ -6,3 +6,6 @@
 
 - dns
   - [DynamicDNS](dns/DynamicDNS.md)
+
+- infra
+  - [SSH](infra/SSH.md)
