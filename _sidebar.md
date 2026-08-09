@@ -1,1 +1,1 @@
- [MariaDB](MariaDB.md)
+ [phpMyAdmin](phpMyAdmin.md)
