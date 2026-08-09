@@ -1,7 +1,5 @@
 - [README](README.md)
-
 - [Git](Git.md)
-- [Markdown](Markdown.md)
 
 - Database
   - [MariaDB](database/MariaDB.md)
@@ -15,6 +13,11 @@
 
 - web-server
   - [Docker](web-server/Docker.md)
+
+- languages
+  - [Markdown](languages/Markdown.md)
+  - [python](languages/python.md)
+  - [PHP](languages/PHP.md)
 
 - infra
   - [SSH](infra/SSH.md)
