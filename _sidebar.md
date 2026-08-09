@@ -1,8 +1,8 @@
 - [README](README.md)
 
 - Database
-  - [MariaDB](MariaDB.md)
-  - [phpMyAdmin](phpMyAdmin.md)
+  - [MariaDB](database/MariaDB.md)
+  - [phpMyAdmin](database/phpMyAdmin.md)
 
 - dns
   - [DynamicDNS](dns/DynamicDNS.md)
