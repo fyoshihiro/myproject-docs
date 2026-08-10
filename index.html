@@ -1,13 +1,20 @@
 <!doctype html>
 <html>
-
 <head>
     <meta charset="UTF-8" />
     <title>Docs</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css/github-markdown.min.css" />
+    <style>
+        .markdown-section {
+            max-width: 980px;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+    </style>
 </head>
-
 <body>
     <div id="app"></div>
     <script>
@@ -15,7 +22,14 @@
             homepage: "README.md",
             loadSidebar: true,
             search: 'auto',
-            repo: 'fyoshihiro/myproject-docs'
+            repo: 'fyoshihiro/myproject-docs',
+            plugins: [
+                function (hook) {
+                    hook.doneEach(function () {
+                        document.querySelector('.markdown-section').classList.add('markdown-body');
+                    });
+                }
+            ]
         };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
@@ -25,13 +39,10 @@
     <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/docsify-progress@latest/dist/progress.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/docsify-plugin-github-alert/dist/index.min.js"></script>
-
     <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
     <!-- Mermaid対応 -->
     <script src="//unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script src="//unpkg.com/docsify-mermaid@latest/dist/docsify-mermaid.js"></script>
-
 </body>
-
 </html>
