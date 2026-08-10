@@ -10,6 +10,7 @@
 
 - mail
   - [SPF](mail/SPF.md)
+  - [OB25B](mail/OB25B.md)
 
 - web-server
   - [Docker](web-server/Docker.md)
