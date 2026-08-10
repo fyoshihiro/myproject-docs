@@ -1,13 +1,25 @@
 <!doctype html>
 <html>
-
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
     <title>Docs</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify/lib/themes/vue.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/style.min.css" />
+    <style>
+        @media screen and (max-width: 768px) {
+            body {
+                font-size: 17px;
+            }
+            .markdown-section {
+                padding: 20px 20px 40px;
+            }
+            .markdown-section pre {
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
-
 <body>
     <div id="app"></div>
     <script>
@@ -25,13 +37,10 @@
     <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/zoom-image.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/docsify-progress@latest/dist/progress.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/docsify-plugin-github-alert/dist/index.min.js"></script>
-
     <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
     <!-- Mermaid対応 -->
     <script src="//unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script src="//unpkg.com/docsify-mermaid@latest/dist/docsify-mermaid.js"></script>
-
 </body>
-
 </html>
