@@ -33,30 +33,26 @@
             search: 'auto'
         };
     </script>
-    <button id="backToTop" style="
+
+
+<button id="backToTop" style="
     position:fixed; right:20px; bottom:20px;
     width:44px; height:44px; border-radius:50%;
     border:none; background:var(--accent,#42b983); color:#fff;
-    font-size:20px; cursor:pointer; z-index:9999; display:none;">↑</button>
+    font-size:20px; cursor:pointer; z-index:99999;
+">↑</button>
 
 <script>
-  const btn = document.getElementById('backToTop');
-  const getScrollBox = () => document.querySelector('.content') || window;
-
-  function toggleBtn() {
-    const box = getScrollBox();
-    const top = box === window ? window.scrollY : box.scrollTop;
-    btn.style.display = top > 300 ? 'block' : 'none';
-  }
-
-  document.addEventListener('scroll', toggleBtn, true);
-
-  btn.addEventListener('click', () => {
-    const box = getScrollBox();
-    box.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('backToTop').addEventListener('click', function () {
+    document.querySelectorAll('.content, main, #app').forEach(function (el) {
+      el.scrollTo({ top: 0, behavior: 'smooth' });
+    });
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
   });
 </script>
+    
     <script src="https://cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
