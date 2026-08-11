@@ -44,12 +44,12 @@
 
 <script>
   document.getElementById('backToTop').addEventListener('click', function () {
-    document.querySelectorAll('.content, main, #app').forEach(function (el) {
-      el.scrollTo({ top: 0, behavior: 'smooth' });
+    document.querySelectorAll('*').forEach(function (el) {
+      if (el.scrollTop > 0) {
+        el.scrollTop = 0;
+      }
     });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    document.documentElement.scrollTop = 0;
-    document.body.scrollTop = 0;
+    window.scrollTo(0, 0);
   });
 </script>
     
