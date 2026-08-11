@@ -40,6 +40,31 @@
             search: 'auto'
         };
     </script>
+    <button id="backToTop" style="
+    position:fixed; right:20px; bottom:20px;
+    width:44px; height:44px; border-radius:50%;
+    border:none; background:var(--accent,#42b983); color:#fff;
+    font-size:20px; cursor:pointer; z-index:9999; display:none;
+">↑</button>
+
+<script>
+  const btn = document.getElementById('backToTop');
+  const getScrollBox = () => document.querySelector('.content') || window;
+
+  function toggleBtn() {
+    const box = getScrollBox();
+    const top = box === window ? window.scrollY : box.scrollTop;
+    btn.style.display = top > 300 ? 'block' : 'none';
+  }
+
+  document.addEventListener('scroll', toggleBtn, true);
+
+  btn.addEventListener('click', () => {
+    const box = getScrollBox();
+    box.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
     <script src="https://cdn.jsdelivr.net/npm/docsify/lib/docsify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docsify/lib/plugins/search.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/docsify-darklight-theme@latest/dist/index.min.js"></script>
@@ -49,7 +74,6 @@
     <script src="//cdn.jsdelivr.net/npm/docsify-plugin-github-alert/dist/index.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-python.min.js"></script>
-    <script src="//unpkg.com/docsify-scroll-to-top/dist/docsify-scroll-to-top.min.js"></script>
     <!-- Mermaid対応 -->
     <script src="//unpkg.com/mermaid/dist/mermaid.min.js"></script>
     <script src="//unpkg.com/docsify-mermaid@latest/dist/docsify-mermaid.js"></script>
