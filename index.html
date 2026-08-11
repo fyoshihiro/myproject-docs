@@ -44,12 +44,7 @@
 
 <script>
   document.getElementById('backToTop').addEventListener('click', function () {
-    document.querySelectorAll('*').forEach(function (el) {
-      if (el.scrollTop > 0) {
-        el.scrollTop = 0;
-      }
-    });
-    window.scrollTo(0, 0);
+    document.querySelector('.markdown-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 </script>
     
