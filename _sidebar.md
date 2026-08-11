@@ -7,6 +7,7 @@
 
 - dns
   - [DynamicDNS](dns/DynamicDNS.md)
+  - [Cloudflare](dns/Cloudflare.md)
 
 - mail
   - [SPF](mail/SPF.md)
