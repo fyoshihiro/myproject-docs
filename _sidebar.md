@@ -12,6 +12,7 @@
 - mail
   - [SPF](mail/SPF.md)
   - [OP25B](mail/OP25B.md)
+  - [Postfix](mail/Postfix.md)
 
 - web-server
   - [Docker](web-server/Docker.md)
