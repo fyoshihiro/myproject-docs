@@ -18,7 +18,7 @@
 - web-server
   - [Docker](web-server/Docker.md)
   - [Nginx](web-server/Nginx.md)
-  - [Workers&Pages](Workers&Pages.md)
+  - [Workers&Pages](web-server/Workers&Pages.md)
 
 - languages
   - [Markdown](languages/Markdown.md)
