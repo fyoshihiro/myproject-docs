@@ -272,7 +272,8 @@ export default {
       });
     }
 
-    // 3. それ以外は静的ファイルを配信
+    // 3. それ以外は静的ファイルを配信(独自ドメインのサブパスで公開する場合は
+    //    セクション9の pathPrefix 対応版に置き換える)
     return env.ASSETS.fetch(request);
   },
 };
@@ -365,6 +366,81 @@ git pull
 
 ---
 
+## 9. 独自ドメインのサブパスに接続する(例:`non-pro.net/blog/`)
+
+`workers.dev` の代わりに、既存の独自ドメイン配下(サブパス)で公開したい場合の手順。**Routes設定だけでは不十分**で、サイト内リンクとファイル配信の両方に対応が必要になる。
+
+### 9-1. Eleventyにサブパスを教える(`pathPrefix`)
+
+`.eleventy.js` に `return` を追加し、サイト内のリンク(`{{ post.url }}` など)を自動的に `/blog/...` の形に書き換えさせる。
+
+```js
+module.exports = function(eleventyConfig) {
+  eleventyConfig.addPassthroughCopy("admin");
+  eleventyConfig.addCollection("post", function(collectionApi) {
+    return collectionApi.getFilteredByGlob("posts/*.md");
+  });
+
+  return {
+    pathPrefix: "/blog/"
+  };
+};
+```
+
+### 9-2. テンプレート内の固定リンクも書き換える
+
+`{{ '/posts/' | url }}` のように `url` フィルターを通したリンクに直しておく(固定文字列のままだと `pathPrefix` が反映されない)。
+
+```html
+<a href="{{ '/posts/' | url }}">← 記事一覧に戻る</a>
+```
+
+> **つまずきポイント**:`pathPrefix`は**HTML内のリンク文字列だけ**を書き換える機能で、ビルド後の実際のファイル配置(`_site`フォルダの中身)は変わらない。`_site/blog/index.html`のようなフォルダは作られず、従来通り`_site/index.html`のまま。ここを勘違いすると次の設定を忘れて404になる。
+
+### 9-3. WorkerコードでURLのプレフィックスを除去する
+
+`/blog/`宛のリクエストが来たら、内部的には`/blog/`を取り除いた上で`_site`の中身を探しに行くよう、`src/index.js`の末尾を修正する。
+
+```js
+// 3. それ以外は静的ファイルを配信(/blog/ プレフィックスを除去)
+const newUrl = new URL(request.url);
+if (newUrl.pathname.startsWith("/blog/")) {
+  newUrl.pathname = newUrl.pathname.replace("/blog/", "/") || "/";
+} else if (newUrl.pathname === "/blog") {
+  newUrl.pathname = "/";
+}
+return env.ASSETS.fetch(new Request(newUrl.toString(), request));
+```
+
+### 9-4. Cloudflareダッシュボードでルートを追加
+
+Workers & Pages → 対象Worker → **Settings → Triggers → Routes → Add route**
+
+| Route | Zone |
+|---|---|
+| `non-pro.net/blog/*` | non-pro.net |
+
+> 前提として、対象ドメイン(`non-pro.net`)がCloudflareにゾーン登録済みで、ルート(`@`)がプロキシ済み(オレンジ雲)になっている必要がある。既存の自宅サーバー等と共存可能(Routesに一致しないパスは通常通り実サーバーへ流れる)。
+
+### 9-5. プッシュして確認
+
+```bash
+cd ~/Desktop/my-blog
+git add .
+git commit -m "Add pathPrefix for /blog/ deployment"
+git push
+```
+
+反映後、以下にアクセスして確認する。
+
+```
+https://non-pro.net/blog/
+https://non-pro.net/blog/posts/
+https://non-pro.net/blog/admin/
+```
+
+---
+
 ## 運用の流れ(完成後)
 
 普段の記事投稿はターミナル操作不要。
@@ -387,11 +463,13 @@ git pull
 | `client_id=undefined` | 環境変数がWorker実行時に読めていない | 「Runtime variables and secrets」に登録し直す |
 | 投稿した記事がローカルビルドで反映されない | ローカルとGitHubが同期していない | `git pull`を実行 |
 | 記事の個別ページが生成されない | Eleventyが`posts`フォルダを認識していない | `.eleventy.js`に`addCollection`を追加 |
+| `/blog`(末尾スラッシュなし)で404 | Routesの`/blog/*`パターンは末尾スラッシュなしに一致しない | `/blog/`のように末尾スラッシュを付けてアクセス |
+| `/blog/`配下すべてが404 | `pathPrefix`はリンク文字列のみ書き換え、実ファイル配置は`_site`直下のまま | `src/index.js`で`/blog/`プレフィックスを除去してから`ASSETS.fetch`する処理を追加(セクション9-3) |
+| `git push`が`[rejected]`になる | GitHub側に自分のローカルにない変更がある(CMSからの投稿など) | `git pull`(初回は`git config pull.rebase false`でマージ方式を指定)してから再度`git push` |
 
 ---
 
 ## 今後の拡張候補(未着手)
 
-- 独自ドメイン(例:`non-pro.net/blog/`)への接続(Workers Routesで設定可能)
 - トップページから記事一覧へのリンク追加
 - CSSによる見た目の装飾
