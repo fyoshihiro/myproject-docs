@@ -19,6 +19,7 @@
   - [Docker](web-server/Docker.md)
   - [Nginx](web-server/Nginx.md)
   - [Workers&Pages](web-server/Workers&Pages.md)
+  - [DecapCMS](web-server/DecapCMS.md)
 
 - languages
   - [Markdown](languages/Markdown.md)
