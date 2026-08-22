@@ -327,10 +327,12 @@ title: 記事一覧
 <h1>記事一覧</h1>
 <ul>
 {% for post in collections.post %}
-  <li><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+  <li><a href="{{ post.url | url }}">{{ post.data.title }}</a></li>
 {% endfor %}
 </ul>
 ```
+
+> **つまずきポイント**:`post.url`をそのまま使うと`pathPrefix`(独自ドメインのサブパス設定)が反映されないことがある。`{{ post.url | url }}`のように`url`フィルターを明示的に通すこと。
 
 ### 7-3. 個別記事のレイアウト
 
@@ -441,6 +443,61 @@ https://non-pro.net/blog/admin/
 
 ---
 
+## 10. トップページから記事一覧へのリンク
+
+`index.md` に1行追加するだけ。固定文字列ではなく `url` フィルターを通すのがポイント。
+
+```markdown
+---
+layout: base.njk
+title: はじめてのブログ
+---
+
+# はじめてのブログ
+
+これはEleventyでビルドしたテストページです。
+
+[記事一覧を見る]({{ '/posts/' | url }})
+```
+
+---
+
+## 11. CSSで見た目を整える
+
+### 11-1. CSSファイルを作成
+
+`my-blog` フォルダ直下に `style.css` を作成する(内容は自由)。
+
+### 11-2. Eleventyにコピー対象として追加
+
+`.eleventy.js` に1行追加:
+
+```js
+module.exports = function(eleventyConfig) {
+  eleventyConfig.addPassthroughCopy("admin");
+  eleventyConfig.addPassthroughCopy("style.css");
+  eleventyConfig.addCollection("post", function(collectionApi) {
+    return collectionApi.getFilteredByGlob("posts/*.md");
+  });
+
+  return {
+    pathPrefix: "/blog/"
+  };
+};
+```
+
+### 11-3. レイアウトファイルに読み込み設定を追加
+
+`_includes/base.njk` と `_includes/post.njk` の両方の `<head>` 内に追加する。
+
+```html
+<link rel="stylesheet" href="{{ '/style.css' | url }}">
+```
+
+> **つまずきポイント**:CSSのリンクも記事リンクと同様、固定文字列(`/style.css`)のままだと`pathPrefix`が反映されず、独自ドメイン配下では読み込まれない。必ず`| url`フィルターを通すこと。
+
+---
+
 ## 運用の流れ(完成後)
 
 普段の記事投稿はターミナル操作不要。
@@ -466,10 +523,10 @@ https://non-pro.net/blog/admin/
 | `/blog`(末尾スラッシュなし)で404 | Routesの`/blog/*`パターンは末尾スラッシュなしに一致しない | `/blog/`のように末尾スラッシュを付けてアクセス |
 | `/blog/`配下すべてが404 | `pathPrefix`はリンク文字列のみ書き換え、実ファイル配置は`_site`直下のまま | `src/index.js`で`/blog/`プレフィックスを除去してから`ASSETS.fetch`する処理を追加(セクション9-3) |
 | `git push`が`[rejected]`になる | GitHub側に自分のローカルにない変更がある(CMSからの投稿など) | `git pull`(初回は`git config pull.rebase false`でマージ方式を指定)してから再度`git push` |
+| 記事一覧や記事本文の一部リンクだけ`/blog/`が付かず404 | テンプレート内のリンクで`url`フィルターの通し忘れがある | `{{ post.url }}`や固定文字列のhrefを`{{ post.url | url }}`のように`| url`フィルターを通す |
 
 ---
 
 ## 今後の拡張候補(未着手)
 
-- トップページから記事一覧へのリンク追加
-- CSSによる見た目の装飾
+- なし(基本構成は完成)
