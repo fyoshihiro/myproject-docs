@@ -523,7 +523,7 @@ module.exports = function(eleventyConfig) {
 | `/blog`(末尾スラッシュなし)で404 | Routesの`/blog/*`パターンは末尾スラッシュなしに一致しない | `/blog/`のように末尾スラッシュを付けてアクセス |
 | `/blog/`配下すべてが404 | `pathPrefix`はリンク文字列のみ書き換え、実ファイル配置は`_site`直下のまま | `src/index.js`で`/blog/`プレフィックスを除去してから`ASSETS.fetch`する処理を追加(セクション9-3) |
 | `git push`が`[rejected]`になる | GitHub側に自分のローカルにない変更がある(CMSからの投稿など) | `git pull`(初回は`git config pull.rebase false`でマージ方式を指定)してから再度`git push` |
-| 記事一覧や記事本文の一部リンクだけ`/blog/`が付かず404 | テンプレート内のリンクで`url`フィルターの通し忘れがある | `{{ post.url }}`や固定文字列のhrefを`{{ post.url | url }}`のように`| url`フィルターを通す |
+| 記事一覧や記事本文の一部リンクだけ`/blog/`が付かず404 | テンプレート内のリンクで`url`フィルターの通し忘れがある | `{{ post.url }}`や固定文字列のhrefを`{{ post.url \| url }}`のように`\| url`フィルターを通す |
 
 ---
 

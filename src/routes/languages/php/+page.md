@@ -2,7 +2,7 @@
 
 PHPのインストール手順(Nginxとの連携含む)と、PDOを使ったデータベース接続の基本をまとめます。
 
-関連ドキュメント: [Nginx(PHP-FPM連携の詳細)](../web-server/Nginx.md) / [MariaDB](../database/MariaDB.md)
+関連ドキュメント: [Nginx(PHP-FPM連携の詳細)](/web-server/nginx) / [MariaDB](/database/mariadb)
 
 ## 目次
 
@@ -19,7 +19,7 @@ PHP本体とPHP-FPM(NginxなどからPHPを呼び出すためのプロセスマ�
 sudo apt install php php-fpm
 ```
 
-Nginx側で `.php` へのリクエストをPHP-FPMに渡す設定や、動作確認方法については [Nginxドキュメント](../web-server/Nginx.md#phpのインストールとnginxとの連携) を参照してください。
+Nginx側で `.php` へのリクエストをPHP-FPMに渡す設定や、動作確認方法については [Nginxドキュメント](/web-server/nginx#phpのインストールとnginxとの連携) を参照してください。
 
 ### よく使う追加モジュール
 
@@ -35,7 +35,7 @@ sudo apt install php-mysql php-curl php-mbstring
 sudo apt install phpmyadmin
 ```
 
-> **補足**: `apt` からインストールする方法の他に、公式サイトから対応バージョンをダウンロードして手動配置する方法もあります。手動配置の詳しい手順は [phpMyAdminドキュメント](../database/phpMyAdmin.md) を参照してください。
+> **補足**: `apt` からインストールする方法の他に、公式サイトから対応バージョンをダウンロードして手動配置する方法もあります。手動配置の詳しい手順は [phpMyAdminドキュメント](/database/phpmyadmin) を参照してください。
 
 ---
 

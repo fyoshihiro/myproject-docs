@@ -2,7 +2,7 @@
 
 Nginxは高性能なWebサーバー/リバースプロキシです。このドキュメントでは、インストールから静的サイトの公開、複数ドメインの設定(バーチャルホスト)、PHPとの連携までをまとめます。
 
-関連ドキュメント: [MariaDB](../database/MariaDB.md) / [phpMyAdmin](../database/phpMyAdmin.md) / [WordPress](../cms/WordPress.md)
+関連ドキュメント: [MariaDB](/database/mariadb) / [phpMyAdmin](/database/phpmyadmin) / WordPress(未作成)
 
 ## 目次
 
@@ -171,7 +171,7 @@ server {
 - `listen 443 default_server`: このブロックを、該当する `server_name` がない場合の**デフォルト応答先**として指定
 - `root` をブロックごとに変える: ドメイン(サブドメイン)ごとに公開するファイルを分けられる
 - `location ~ \.php$`: `.php` で終わるリクエストをPHP-FPMに渡す設定(詳細は後述)
-- SSL証明書は [Let's Encrypt](../dns/Lets_Encrypt.md) のドキュメントを参照
+- SSL証明書は Let's Encrypt(未作成) のドキュメントを参照
 
 ---
 

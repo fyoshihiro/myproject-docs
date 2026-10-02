@@ -111,7 +111,7 @@ OP25Bは「送信経路の制御」、SPF・DKIM・DMARCは「送信者の正当
 | DKIM | 電子署名による改ざん防止 |
 | DMARC | SPF/DKIM結果に基づくポリシー制御 |
 
-> 関連技術の詳細は [SPF / DKIM / DMARC](SPF.md) を参照してください。
+> 関連技術の詳細は [SPF / DKIM / DMARC](/mail/spf) を参照してください。
 
 ---
 
