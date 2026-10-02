@@ -2,6 +2,7 @@
 	import favicon from '#lib/assets/favicon.svg';
 	import { nav } from '#lib/nav.js';
 	import { page } from '$app/state';
+	import Search from '#lib/Search.svelte';
 	import './layout.css';
 
 	let { children } = $props();
@@ -19,6 +20,7 @@
 
 <div class="shell">
 	<nav class="sidebar" class:open>
+		<Search />
 		{#each nav as section}
 			{#if section.title}<h2>{section.title}</h2>{/if}
 			<ul>
@@ -34,7 +36,7 @@
 			</ul>
 		{/each}
 	</nav>
-	<main class="content">
+	<main class="content" data-pagefind-body>
 		{@render children()}
 	</main>
 </div>
