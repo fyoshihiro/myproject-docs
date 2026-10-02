@@ -2,8 +2,21 @@
 
 SPF・DKIM・DMARCは、自ドメインを騙ったなりすましメール(送信ドメイン認証)を防ぐための仕組みです。3つを組み合わせることで、受信側のメールサーバーが「このメールは本当にそのドメインから送られたものか」を検証できるようになります。
 
+## 全体の流れ(受信側の検証)
+
+```mermaid
+flowchart TD
+  M["メールを受信"] --> SPF["SPF の検証<br/>送信元サーバーはDNSの一覧に含まれるか"]
+  M --> DKIM["DKIM の検証<br/>署名はDNSの公開鍵で確認できるか"]
+  SPF -->|"pass / fail"| DMARC["DMARC の判定<br/>SPFまたはDKIMがpassし、かつFromドメインと一致するか"]
+  DKIM -->|"pass / fail"| DMARC
+  DMARC -->|"はい"| OK["受信する"]
+  DMARC -->|"いいえ"| POL["ポリシー(p=)に従う<br/>none / quarantine / reject"]
+```
+
 ## 目次
 
+- [全体の流れ(受信側の検証)](#全体の流れ受信側の検証)
 - [SPF(Sender Policy Framework)](#spfsender-policy-framework)
 - [DKIM(DomainKeys Identified Mail)](#dkimdomainkeys-identified-mail)
 - [DMARC](#dmarc)
