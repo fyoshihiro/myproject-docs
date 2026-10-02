@@ -24,6 +24,21 @@
 		rerenderMermaid(document.querySelector('.content')!);
 	}
 
+	let progress = $state(0);
+	let showTop = $state(false);
+	let zoomSrc = $state<string | null>(null);
+
+	function onScroll() {
+		const max = document.documentElement.scrollHeight - innerHeight;
+		progress = max > 0 ? Math.min(100, (scrollY / max) * 100) : 0;
+		showTop = scrollY > 300;
+	}
+
+	function onContentClick(e: MouseEvent) {
+		const el = e.target;
+		if (el instanceof HTMLImageElement) zoomSrc = el.currentSrc || el.src;
+	}
+
 	// 各コードブロックにコピーボタンを付ける(ページ遷移のたびに再実行)
 	$effect(() => {
 		page.url.pathname;
@@ -56,6 +71,10 @@
 	<title>Docs</title>
 </svelte:head>
 
+<svelte:window onscroll={onScroll} onresize={onScroll} onkeydown={(e) => e.key === 'Escape' && (zoomSrc = null)} />
+
+<div class="progress" style:width="{progress}%"></div>
+
 <button
 	class="theme-toggle"
 	aria-label={theme === 'dark' ? 'ライトモードに切り替え' : 'ダークモードに切り替え'}
@@ -82,7 +101,23 @@
 			</ul>
 		{/each}
 	</nav>
-	<main class="content" data-pagefind-body>
+	<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_noninteractive_element_interactions -->
+	<main class="content" data-pagefind-body onclick={onContentClick}>
 		{@render children()}
 	</main>
 </div>
+
+{#if showTop}
+	<button
+		class="back-to-top"
+		aria-label="ページの先頭へ"
+		onclick={() => scrollTo({ top: 0, behavior: 'smooth' })}>↑</button
+	>
+{/if}
+
+{#if zoomSrc}
+	<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
+	<div class="zoom-overlay" onclick={() => (zoomSrc = null)}>
+		<img src={zoomSrc} alt="" />
+	</div>
+{/if}

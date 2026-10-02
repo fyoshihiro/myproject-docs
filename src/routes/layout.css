@@ -106,3 +106,42 @@ a { color: var(--accent); }
 	cursor: pointer;
 }
 .theme-toggle:hover { border-color: var(--accent); }
+
+.progress {
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 3px;
+	background: var(--accent);
+	z-index: 30;
+	transition: width 0.1s;
+}
+.back-to-top {
+	position: fixed;
+	right: 12px;
+	bottom: 12px;
+	width: 2.4rem;
+	height: 2.4rem;
+	font-size: 1.1rem;
+	color: #fff;
+	background: var(--accent);
+	opacity: 0.8;
+	border: none;
+	border-radius: 50%;
+	cursor: pointer;
+	z-index: 20;
+}
+.back-to-top:hover { opacity: 1; }
+.content img { cursor: zoom-in; }
+.zoom-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: 40;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 1rem;
+	background: rgba(0, 0, 0, 0.8);
+	cursor: zoom-out;
+}
+.zoom-overlay img { max-width: 100%; max-height: 100%; }
