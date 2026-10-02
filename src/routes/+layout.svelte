@@ -8,6 +8,29 @@
 	let { children } = $props();
 	let open = $state(false);
 
+	// 各コードブロックにコピーボタンを付ける(ページ遷移のたびに再実行)
+	$effect(() => {
+		page.url.pathname;
+		for (const pre of document.querySelectorAll<HTMLPreElement>('.content pre')) {
+			if (pre.querySelector('.copy-btn')) continue;
+			const btn = document.createElement('button');
+			btn.className = 'copy-btn';
+			btn.type = 'button';
+			btn.textContent = 'Copy';
+			btn.addEventListener('click', async () => {
+				const code = pre.querySelector('code')?.innerText ?? pre.innerText;
+				try {
+					await navigator.clipboard.writeText(code);
+					btn.textContent = 'Copied!';
+				} catch {
+					btn.textContent = 'Failed';
+				}
+				setTimeout(() => (btn.textContent = 'Copy'), 1500);
+			});
+			pre.appendChild(btn);
+		}
+	});
+
 	const isActive = (href: string) => page.url.pathname.replace(/\/$/, '') === href.replace(/\/$/, '');
 </script>
 
