@@ -70,3 +70,21 @@ a { color: var(--accent); }
 	.sidebar.open { transform: none; }
 	.content { padding: 3.5rem 1rem 3rem; }
 }
+.content pre { position: relative; }
+.copy-btn {
+	position: absolute;
+	top: 6px;
+	right: 6px;
+	padding: 0.1rem 0.6rem;
+	font-size: 0.75rem;
+	color: var(--muted);
+	background: var(--bg);
+	border: 1px solid var(--border);
+	border-radius: 4px;
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity 0.15s;
+}
+.content pre:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
+.copy-btn:hover { color: var(--accent); border-color: var(--accent); }
+@media (hover: none) { .copy-btn { opacity: 1; } }
