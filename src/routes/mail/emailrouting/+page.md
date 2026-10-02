@@ -26,16 +26,21 @@ DNS・SMTP・SPF/DKIM/DMARCがそれぞれ何をしているのかを、再構�
 
 ### アーキテクチャ図
 
+```mermaid
+flowchart LR
+  subgraph IN["受信"]
+    direction LR
+    S1["外部送信者"] --> D1["DNS(MXレコード参照)"] --> CF["Cloudflare Email Routing"]
+    CF -->|"Cloudflareが独自DKIM署名して中継"| GM["Gmail受信箱"]
+  end
+  subgraph OUT["送信"]
+    direction LR
+    ME["自分(Gmail Web UI)"] -->|"SMTP AUTH"| SES["Amazon SES"]
+    SES -->|"example.comのDKIM鍵で署名<br/>Custom MAIL FROMでSPFアライメントも確保"| MTA["インターネット上の相手先MTA"]
+  end
 ```
-【受信】
-外部送信者 → DNS(MXレコード参照) → Cloudflare Email Routing
-    → (Cloudflareが独自DKIM署名して中継) → Gmail受信箱
 
-【送信】
-自分(Gmail Web UI) → SMTP AUTH → Amazon SES
-    → (SESがexample.comのDKIM鍵で署名、Custom MAIL FROMでSPFアライメントも確保)
-    → インターネット上の相手先MTA
-
+```
 【DNSが担う役割】
 MX     : 受信の窓口をCloudflareに指定
 SPF    : どのIP/サービスがexample.comとして送信してよいかを列挙
@@ -100,18 +105,16 @@ MXレコードは「このドメイン宛のメールを、どのSMTPサーバ�
 Cloudflare Email Routingは、単純な「メール自動転送(Forward)」に見えて、
 実際には**インバウンドSMTPリレー兼ゲートウェイ**として動作しています。
 
-```
-外部送信者
-   │ SMTP (MAIL FROM: 送信者@他ドメイン, RCPT TO: user@example.com)
-   ▼
-Cloudflareのroute*.mx.cloudflare.net (Anycast, グローバル分散インフラ)
-   │ Cloudflare内部でルーティングルールを評価
-   │ (Catch-all / 個別アドレスルールに従い転送先を決定)
-   ▼
-Cloudflareが「新たな送信者」としてGmail宛にSMTP再送信(リレー)
-   │ この際、CloudflareはDKIM署名(セレクタ: cf2024-1)を独自に付与
-   ▼
-Gmailの受信MTAが着信
+```mermaid
+sequenceDiagram
+  participant S as 外部送信者
+  participant CF as Cloudflare<br/>(route*.mx.cloudflare.net / Anycast)
+  participant G as Gmailの受信MTA
+  S->>CF: SMTP (MAIL FROM: 送信者@他ドメイン, RCPT TO: user@example.com)
+  Note over CF: ルーティングルールを評価<br/>(Catch-all / 個別アドレスルールで転送先を決定)
+  CF->>G: 新たな送信者としてSMTP再送信(リレー)
+  Note over CF,G: CloudflareがDKIM署名(セレクタ: cf2024-1)を独自に付与
+  Note over G: 着信
 ```
 
 ### 1-3. 「直接受信」ではなく「転送」させるメリット

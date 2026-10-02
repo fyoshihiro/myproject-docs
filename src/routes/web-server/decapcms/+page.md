@@ -4,16 +4,12 @@
 
 ## 全体の仕組み
 
-```
-管理画面(/admin/)でログイン・記事作成
-        ↓
-GitHubリポジトリに自動コミット
-        ↓
-Cloudflareが自動検知してビルド(Eleventy)
-        ↓
-Workerが独自ドメイン配下でサイトを配信
-        ↓
-記事一覧・個別ページが自動生成
+```mermaid
+flowchart TD
+  A["管理画面(/admin/)でログイン・記事作成"] --> B["GitHubリポジトリに自動コミット"]
+  B --> C["Cloudflareが自動検知してビルド(Eleventy)"]
+  C --> D["Workerが独自ドメイン配下でサイトを配信"]
+  D --> E["記事一覧・個別ページが自動生成"]
 ```
 
 - **Eleventy**:Markdownの記事をHTMLサイトに変換する静的サイトジェネレーター

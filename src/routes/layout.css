@@ -88,3 +88,5 @@ a { color: var(--accent); }
 .content pre:hover .copy-btn, .copy-btn:focus-visible { opacity: 1; }
 .copy-btn:hover { color: var(--accent); border-color: var(--accent); }
 @media (hover: none) { .copy-btn { opacity: 1; } }
+.mermaid-diagram { display: flex; justify-content: center; margin: 1.2rem 0; overflow-x: auto; }
+.mermaid-diagram svg { max-width: 100%; height: auto; }

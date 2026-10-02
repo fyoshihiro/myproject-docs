@@ -3,6 +3,7 @@
 	import { nav } from '#lib/nav.js';
 	import { page } from '$app/state';
 	import Search from '#lib/Search.svelte';
+	import { renderMermaid } from '#lib/mermaid.js';
 	import './layout.css';
 
 	let { children } = $props();
@@ -11,7 +12,8 @@
 	// 各コードブロックにコピーボタンを付ける(ページ遷移のたびに再実行)
 	$effect(() => {
 		page.url.pathname;
-		for (const pre of document.querySelectorAll<HTMLPreElement>('.content pre')) {
+		renderMermaid(document.querySelector('.content')!);
+		for (const pre of document.querySelectorAll<HTMLPreElement>('.content pre:not(.language-mermaid)')) {
 			if (pre.querySelector('.copy-btn')) continue;
 			const btn = document.createElement('button');
 			btn.className = 'copy-btn';
