@@ -2,12 +2,27 @@
 	import favicon from '#lib/assets/favicon.svg';
 	import { nav } from '#lib/nav.js';
 	import { page } from '$app/state';
+	import { onMount } from 'svelte';
 	import Search from '#lib/Search.svelte';
-	import { renderMermaid } from '#lib/mermaid.js';
+	import { renderMermaid, rerenderMermaid } from '#lib/mermaid.js';
 	import './layout.css';
 
 	let { children } = $props();
 	let open = $state(false);
+	let theme = $state<'light' | 'dark'>('light');
+
+	onMount(() => {
+		theme = document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light';
+	});
+
+	function toggleTheme() {
+		theme = theme === 'dark' ? 'light' : 'dark';
+		document.documentElement.dataset.theme = theme;
+		try {
+			localStorage.setItem('theme', theme);
+		} catch {}
+		rerenderMermaid(document.querySelector('.content')!);
+	}
 
 	// 各コードブロックにコピーボタンを付ける(ページ遷移のたびに再実行)
 	$effect(() => {
@@ -41,6 +56,12 @@
 	<title>Docs</title>
 </svelte:head>
 
+<button
+	class="theme-toggle"
+	aria-label={theme === 'dark' ? 'ライトモードに切り替え' : 'ダークモードに切り替え'}
+	title="テーマ切り替え"
+	onclick={toggleTheme}>{theme === 'dark' ? '☀' : '☾'}</button
+>
 <button class="menu" aria-label="メニュー" onclick={() => (open = !open)}>☰</button>
 
 <div class="shell">

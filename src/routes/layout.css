@@ -7,14 +7,13 @@
 	--code-bg: #f6f8fa;
 	--sidebar-w: 260px;
 }
-@media (prefers-color-scheme: dark) {
-	:root {
-		--bg: #1b1e23;
-		--fg: #d6dde4;
-		--muted: #93a0ad;
-		--border: #2e333a;
-		--code-bg: #262a31;
-	}
+:root[data-theme='dark'] {
+	color-scheme: dark;
+	--bg: #1b1e23;
+	--fg: #d6dde4;
+	--muted: #93a0ad;
+	--border: #2e333a;
+	--code-bg: #262a31;
 }
 * { box-sizing: border-box; }
 body {
@@ -90,3 +89,20 @@ a { color: var(--accent); }
 @media (hover: none) { .copy-btn { opacity: 1; } }
 .mermaid-diagram { display: flex; justify-content: center; margin: 1.2rem 0; overflow-x: auto; }
 .mermaid-diagram svg { max-width: 100%; height: auto; }
+
+.theme-toggle {
+	position: fixed;
+	top: 8px;
+	right: 12px;
+	z-index: 20;
+	width: 2.2rem;
+	height: 2.2rem;
+	font-size: 1.1rem;
+	line-height: 1;
+	color: var(--fg);
+	background: var(--bg);
+	border: 1px solid var(--border);
+	border-radius: 50%;
+	cursor: pointer;
+}
+.theme-toggle:hover { border-color: var(--accent); }
